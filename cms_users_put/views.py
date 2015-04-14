@@ -58,15 +58,15 @@ def mostrartemplate(request,recurso):
       salida = logueo(request)     
   try:
     lista = Usuarios.objects.filter(name=recurso)
+    nombre = " "
+    birthday = " "
     for i in lista:
-      salida += request.method  + " "  + str(i.id) + " " + i.name + " " + i.birthday
-        
-    #PLANTILLA###########
+      nombre +=  i.name
+      birthday += i.birthday
     # 1. Indicar la plantilla a utilizar
     plantilla = get_template('index.html')
     # 2. Definir el contexto
-    # MUY IMPORTANTE EN EL INDEX DEBE DE HABER LAS ETIQUETAS {{ title }} y {{ contenido }}, MIRAR EN marioz/index.html
-    c = Context({'title': recurso, 'contenido': salida, 'user': request.user.username,})
+    c = Context({'title': recurso, 'nombre': nombre, 'cumple': birthday,})
     # 3. Renderizar
     renderizado = plantilla.render(c)
     return HttpResponse(renderizado)
